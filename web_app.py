@@ -6,6 +6,7 @@ from flask_login import (LoginManager, login_user, logout_user,
 from wtforms.fields.html5 import DateField
 
 import app
+import web_app_parts
 
 import datetime
 import forms
@@ -241,6 +242,11 @@ def test():
         time = datetime.datetime.now()
         render_template('test.html', form=form, time=time, value=value)
     return render_template('test.html', form=form, time=datetime.datetime.now())
+
+
+@web_app.route('/parts')
+def parts_base():
+    return render_template('parts/base.html', time=datetime.datetime.now())
 
 
 if __name__ == '__main__':
