@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Info</h1>
+
+<div id="store_column">
+
+</div>
+<div id="employee_column">
+    <h1>Closest employees (distance)</h1>
+    <table>
+        <thead><tr>
+            <td>Employee</td><td>Distance</td><td>Time</td>
+        </tr></thead>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.dist }}</td>
+            <td>{{ employee.time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

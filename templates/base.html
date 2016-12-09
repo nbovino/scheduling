@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <link href="static/css/jquery-ui.css" type="text/css" rel="stylesheet" />
+        <link href="static/css/main.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
+    <div id="wrap">
+        <div id="main">
+            <!--<h1>Welcome to BDS scheduling and assignment app</h1>-->
+            <h1>Welcome to the scheduling and assignment app</h1>
+            <p>For your scheduling convenience needs</p>
+            <div class="nav"><ul>
+                    <li><a href="{{ url_for('base') }}">HOME</a></li>
+                    <li><a href="{{ url_for('add_retailer') }}">Add Retailer</a></li>
+                    <li><a href="{{ url_for('add_store') }}">Add Store</a></li>
+                    <li><a href="{{ url_for('add_client') }}">Add Client</a></li>
+                    <li><a href="{{ url_for('add_job') }}">Add Job</a></li>
+                    <li><a href="{{ url_for('add_employee') }}">Add Employee</a></li>
+                    <li><a href="{{ url_for('view_info') }}">View Info</a></li>
+                    <li><a href="{{ url_for('compare_distances') }}">Compare Distances</a></li>
+                    <li><a href="{{ url_for('automation') }}">Automations</a></li>
+                </ul>
+            </div>
+            {% block content %}
+            {% endblock %}
+    <!-- show date and time -->
+        </div>
+    </div>
+    <div id="footer">
+        <time>{{ time.strftime('%A %-m-%-d-%Y %-I:%M %p') }}</time>
+        <p><a href="{{ url_for('coming_soon') }}">Coming Soon</a></p>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>-->
+
+    </body>
+</html>

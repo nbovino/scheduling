@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block content %}
+<h1>Assign Job</h1>
+<div class="container" >
+    <div class="column-details">
+        <div>
+            <p>Client: {{ client }}</p>
+            <p>Store: {{ name }}</p>
+            <p>Address: {{ address }}</p>
+            <p>{{ id }}</p>
+        </div>
+            <form method="POST" action="" class="form">
+                <p>Closest Time: {{ closest_t }}</p>
+                <p>Closest Distance: {{ closest_d }}</p>
+                {{ form.hidden_tag() }}
+                <p>Assigned Employee: {{ assigned }}{{ render_field(form.assign) }}</p>
+                <p>Temporary Employee: {{ temp }}{{ render_field(form.temp) }}</p>
+            <button type="submit">Assign employee(s)</button>
+            </form>
+    </div>
+    <div class="column-time">
+        <table id="time-table">
+            <thead><tr><th colspan="2" align="center">Closest by Travel Time</th></tr>
+            <tr><th>Employee</th><th>Time</th></tr></thead>
+            {% for t_e in time_list %}
+            <tr><td>{{ t_e[0] }}</td><td>{{ t_e[1] }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="column-dist">
+        <table id="dist-table">
+            <thead><tr><th colspan="2" align="center">Closest by Distance</th></tr>
+            <tr><th>Employee</th><th>Distance</th></tr></thead>
+            {% for d_e in dist_list %}
+            <tr><td>{{ d_e[0] }}</td><td>{{ d_e[1] }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

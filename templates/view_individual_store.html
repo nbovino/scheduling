@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block content %}
+<h1>Information for {{ retailer }}: {{ store_number }}</h1>
+<p>{{ address }}</p>
+<div class="container" >
+    <div class="store-detail-column">
+    <h2>Jobs at this location</h2>
+        {% if all_jobs %}
+            <table><thead><tr><td>Client</td><td>Required Level</td><td>Assigned Employee</td><td></td></tr></thead>
+            {% for job in all_jobs %}
+                <tr>
+                    <td>{{ app.get_client_name(job[1])[0] }}</td>
+                    <td>{{ job[3] }}</td>
+                    {% if job[4] == None %}
+                        <td>Not currently assigned</td>
+                    {% else %}
+                        <td>{{ app.get_employee_name(job[4])[0] }}</td>
+                    {% endif %}
+                    <td><a href="{{ url_for('view_individual_job', job=job[0]) }}">View Details</a></td>
+                </tr>
+            {% endfor %}
+            {% else %}
+            Currently no jobs at this location
+                {% endif %}
+    </table>
+    </div>
+    <div class="column-time">
+        <table id="time-table">
+            <thead><tr><th colspan="2" align="center">Closest by Travel Time</th></tr>
+            <tr><th>Employee</th><th>Time</th></tr></thead>
+            {% for t_e in time_list %}
+            <tr><td>{{ t_e[0] }}</td><td>{{ t_e[1] }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="column-dist">
+        <table id="dist-table">
+            <thead><tr><th colspan="2" align="center">Closest by Distance</th></tr>
+            <tr><th>Employee</th><th>Distance</th></tr></thead>
+            {% for d_e in dist_list %}
+            <tr><td>{{ d_e[0] }}</td><td>{{ d_e[1] }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

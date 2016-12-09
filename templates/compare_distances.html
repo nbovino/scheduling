@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block content %}
+<h1>Compare Distances</h1>
+    <select id="emp_select">
+    </select>
+
+    <select id="store_select">
+    </select>
+    <div id="output"></div>
+    <div id="map"></div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBotA7TiiiJss_K-hC8VGCvJC5m6SMYNcU&callback=initMap">
+</script>
+{% endblock %}
