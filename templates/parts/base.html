@@ -5,9 +5,46 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
+        <link href="static/css/jquery-ui.css" type="text/css" rel="stylesheet" />
+        <link href="../static/css/parts_site_style.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <h1>Parts App</h1>
-        <p>You can see your ordered parts</p>
+    <div id="wrap">
+        <div id="main">
+            <!--<h1>Welcome to BDS scheduling and assignment app</h1>-->
+            <h1>Welcome to the parts ordering app</h1>
+            <p>For your scheduling convenience needs</p>
+            <div class="nav"><ul>
+                    <li><a href="{{ url_for('parts_base') }}">HOME</a></li>
+                    <li><a href="{{ url_for('view_all_orders') }}">View All Orders</a></li>
+                    <li><a href="{{ url_for('new_part') }}">New Part</a></li>
+                    <li><a href="{{ url_for('new_part_order') }}">New Part Order</a></li>
+                    <!--<li><a href="{{ url_for('add_client') }}">Add Client</a></li>-->
+                    <!--<li><a href="{{ url_for('add_job') }}">Add Job</a></li>-->
+                    <!--<li><a href="{{ url_for('add_employee') }}">Add Employee</a></li>-->
+                    <!--<li><a href="{{ url_for('view_info') }}">View Info</a></li>-->
+                    <!--<li><a href="{{ url_for('compare_distances') }}">Compare Distances</a></li>-->
+                    <!--<li><a href="{{ url_for('automation') }}">Automations</a></li>-->
+                </ul>
+            </div>
+            {% block content %}
+            {% endblock %}
+    <!-- show date and time -->
+        </div>
+    </div>
+    <div id="footer">
+        <time>{{ time.strftime('%A %-m-%-d-%Y %-I:%M %p') }}</time>
+        <div class="nav"><ul>
+                <li><a href="{{ url_for('coming_soon') }}">Coming Soon</a></li>
+                <li><a href="{{ url_for('base') }}">Scheduling Site</a></li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>-->
+
     </body>
 </html>

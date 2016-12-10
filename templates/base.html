@@ -33,7 +33,11 @@
     </div>
     <div id="footer">
         <time>{{ time.strftime('%A %-m-%-d-%Y %-I:%M %p') }}</time>
-        <p><a href="{{ url_for('coming_soon') }}">Coming Soon</a></p>
+        <div class="nav"><ul>
+                <li><a href="{{ url_for('coming_soon') }}">Coming Soon</a></li>
+                <li><a href="{{ url_for('parts_base') }}">Part Ordering Site</a></li>
+            </ul>
+        </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>

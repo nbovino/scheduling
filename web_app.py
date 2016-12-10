@@ -5,11 +5,18 @@ from flask_login import (LoginManager, login_user, logout_user,
                          login_required, current_user)
 from wtforms.fields.html5 import DateField
 
+import os
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = 'static/parts_images'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 import app
-import web_app_parts
+import part_order_app
 
 import datetime
 import forms
+import part_forms
 # import models
 # import json
 from dateutil.parser import parse
@@ -20,6 +27,7 @@ HOST = '0.0.0.0'
 
 web_app = Flask(__name__)
 web_app.secret_key = 'nfj2984ijNDUUu2j3kj32nlr3f)k23rj90wjdinoaIUFHEpyio'
+web_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @web_app.route('/')
@@ -247,6 +255,39 @@ def test():
 @web_app.route('/parts')
 def parts_base():
     return render_template('parts/base.html', time=datetime.datetime.now())
+
+@web_app.route('/parts/view_all_orders')
+def view_all_orders():
+    return render_template('parts/view_all_orders.html', time=datetime.datetime.now())
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@web_app.route('/parts/new_part')
+def new_part():
+    # TODO: Add ability to upload an image
+    # if request.method == 'POST':
+    #     # check if the post request has the file part
+    #     if 'file' not in request.files:
+    #         flash('No file part')
+    #         return redirect(request.url)
+    #     file = request.files['file']
+    #     # if user does not select file, browser also
+    #     # submit a empty part without filename
+    #     if file.filename == '':
+    #         flash('No selected file')
+    #         return redirect(request.url)
+    #     if file and allowed_file(file.filename):
+    #         filename = secure_filename(file.filename)
+    #         file.save(os.path.join(web_app.config['UPLOAD_FOLDER'], filename))
+    #         return redirect(url_for('uploaded_file',
+    #                                 filename=filename))
+    return render_template('parts/new_part.html', time=datetime.datetime.now(), app=part_order_app, source="../static/parts_images/solo2.jpg", form=part_forms)
+
+@web_app.route('/parts/new_order')
+def new_part_order():
+    return render_template('parts/new_part_order.html', time=datetime.datetime.now())
 
 
 if __name__ == '__main__':

@@ -1,0 +1,107 @@
+body {
+	width: 960px;
+	margin: 0 auto;
+	background-color: #97a6d8;
+}
+
+#content {
+	overflow: auto;
+	height: 100%;
+}
+
+.column1, .column2, .column3 {
+	background-color: #efefef;
+	width: 300px;
+	float: left;
+	margin: 10px;
+}
+
+/*li {
+	display: inline;
+	padding:5px;
+}*/
+
+.head {
+	overflow: auto;
+	background-color:blue;
+	margin: 10px;
+}
+
+#navbar {
+	color: blue;
+	margin-right: 15px;
+}
+
+
+#footer {
+	text-align: left;
+    position: absolute;
+    bottom: 0;
+    vertical-align: bottom;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.nav > ul > li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+#employee_column {
+    clear: right;
+}
+
+.column-details{ float: left; width: 50%; }
+.column-time{ float: right; width: 25%; }
+.column-dist{ display: inline-block; width: 25%; }
+.store-detail-column{ float: left; width: 50%; }
+.info-column{ float: left; width: 60%; }
+.add-form{ float: left; width: 40%; }
+
+.container {
+    margin-bottom: 10px;
+}
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#main {overflow:auto;
+	padding-bottom: 150px;}  /* must be same height as the footer */
+
+#footer {
+    position: relative;
+	margin-top: -150px; /* negative value of footer height */
+	height: 150px;
+	clear:both;
+	text-align: left;
+}
+
+td {
+/*    margin-right: 50px;*/
+    padding-right: 15px;
+}
+
+thead, th {
+    background-color: #89a914;
+}
+tr:nth-child(even) {
+    background-color: #c5e748;
+}
+
+.scrollable {
+    height: 300px; /* or any value */
+    overflow-y: auto;
+}
+
+.small_image {
+    height: 75px;
+    width: 75px;
+}
