@@ -10,23 +10,13 @@ $( "#start_date" ).datepicker();
 
 $( "#end_date" ).datepicker();
 
+$( "#order_date" ).datepicker();
+
 // Basically disables Chrome's default datepicker on a date field
 $( "#hire_date" ).attr("type", "text");
 $( "#start_date" ).attr("type", "text");
 $( "#end_date" ).attr("type", "text");
-
-//if (!Modernizr.inputtypes['date']) {
-//    $('input[type=date]').datepicker({
-//        // Consistent format with the HTML5 picker
-//        dateFormat: 'yyyy-mm-dd'
-//    });
-//}
-
-//if (navigator.userAgent.indexOf('Chrome') != -1) {
-//    $('input[type=date]').on('click', function(event) {
-//        event.preventDefault();
-//    });
-//}
+$( "#order_date" ).attr("type", "text");
 
 $(function() {
 var $store_list = $('#store_list');
@@ -70,18 +60,6 @@ $select_box.change(function() {
                 table_HTML += '<tr><td>' + job.names.store_name + '</td>';
                 table_HTML += '<td>' + job.names.client + '</td>';
                 table_HTML += '<td>' + job.values.required_level + '</td>';
-//                $.getJSON('static/data/employees.json', function(response) {
-//                    assigned = false;
-//                    $.each(response, function(index, employee) {
-//                        if (employee.id_num == job.assigned_reps.assigned) {
-//                            table_HTML += '<td>' + employee.name + '</td>';
-//                            assigned = true;
-//                        }
-//                    });
-//                    if (assigned == false) {
-//                        table_HTML += '<td>Not Assigned</td>';
-//                    }
-//                });
                 if (job.assigned_reps.assigned === null) {
                     table_HTML += '<td>Not Assigned</td>';
                 } else {
@@ -101,27 +79,7 @@ $select_box.change(function() {
 var $retailer = $('#retailer');
 var $client = $('#client');
 var $store = $('#store');
-//
-//$.getJSON('static/data/clients.json', function(response) {
-//    var client_HTML = '<option value="0">Client</option>';
-//    $.each(response, function(index, client) {
-//        client_HTML += '<option value="' + client.id;
-//        client_HTML += '">' + client.name;
-//        client_HTML += '</option>';
-//    });
-//    $client.html(client_HTML);
-//});
-//
-//$.getJSON('static/data/retailers.json', function(response) {
-//    var retailer_HTML = '<option value="0">Retailer</option>';
-//    $.each(response, function(index, retailer) {
-//        retailer_HTML += '<option value="' + retailer.id;
-//        retailer_HTML += '">' + retailer.name;
-//        retailer_HTML += '</option>';
-//    });
-//    $retailer.html(retailer_HTML);
-//});
-//
+
 $store.html('<option value="0">Select a retailer first</option>');
 $retailer.change(function() {
     if ($retailer.val() === '0') {
@@ -137,6 +95,51 @@ $retailer.change(function() {
                 }
             });
             $store.html(store_HTML);
+        });
+    }
+});
+
+// New Part Order Page: Client to part
+var $p_client = $('#p_client');
+var $part_id = $('#part_id');
+$part_id.html('<option value="0">Select a client first</option>');
+$p_client.change(function() {
+    if ($p_client.val() === '0') {
+        $part_id.html('<option value="0">Select a client first</option>');
+    } else {
+        $.getJSON('../static/data/parts.json', function(response) {
+            var parts_HTML = '<option value="0">Select a part</option>';
+            $.each(response, function(index, part) {
+                if (part.client.toString() === $p_client.val().toString()) {
+                    parts_HTML += '<option value="' + part.id;
+                    parts_HTML += '">' + part.part_number + ": " + part.description;
+                    parts_HTML += '</option>';
+                }
+            });
+            $part_id.html(parts_HTML);
+        });
+    }
+});
+
+// New Part Order Page: retailer
+var $p_retailer = $('#p_retailer');
+var $p_store = $('#p_store');
+
+$p_store.html('<option value="0">Select a retailer first</option>');
+$p_retailer.change(function() {
+    if ($p_retailer.val() === '0') {
+        $p_store.html('<option value="0">Select a retailer first</option>');
+    } else {
+        $.getJSON('../static/data/stores.json', function(response) {
+            var store_HTML = '<option value="0">Select a retailer</option>';
+            $.each(response, function(index, store) {
+                if (store.retailer.id.toString() === $p_retailer.val().toString()) {
+                    store_HTML += '<option value="' + store.id_num;
+                    store_HTML += '">' + store.store_num + ": " + store.address;
+                    store_HTML += '</option>';
+                }
+            });
+            $p_store.html(store_HTML);
         });
     }
 });

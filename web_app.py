@@ -1,5 +1,5 @@
 
-from flask import (Flask, g, render_template, flash, jsonify, redirect, url_for, abort, session, request, Markup)
+from flask import (Flask, g, render_template, flash, jsonify, redirect, url_for, abort, session, request, Markup, send_from_directory)
 from flask_bcrypt import check_password_hash, generate_password_hash
 from flask_login import (LoginManager, login_user, logout_user,
                          login_required, current_user)
@@ -8,8 +8,6 @@ from wtforms.fields.html5 import DateField
 import os
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'static/parts_images'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 import app
 import part_order_app
@@ -21,9 +19,12 @@ import part_forms
 # import json
 from dateutil.parser import parse
 
+
 DEBUG = True
 PORT = 8000
 HOST = '0.0.0.0'
+UPLOAD_FOLDER = 'static/parts_images'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 web_app = Flask(__name__)
 web_app.secret_key = 'nfj2984ijNDUUu2j3kj32nlr3f)k23rj90wjdinoaIUFHEpyio'
@@ -264,30 +265,55 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@web_app.route('/parts/new_part')
-def new_part():
-    # TODO: Add ability to upload an image
-    # if request.method == 'POST':
-    #     # check if the post request has the file part
-    #     if 'file' not in request.files:
-    #         flash('No file part')
-    #         return redirect(request.url)
-    #     file = request.files['file']
-    #     # if user does not select file, browser also
-    #     # submit a empty part without filename
-    #     if file.filename == '':
-    #         flash('No selected file')
-    #         return redirect(request.url)
-    #     if file and allowed_file(file.filename):
-    #         filename = secure_filename(file.filename)
-    #         file.save(os.path.join(web_app.config['UPLOAD_FOLDER'], filename))
-    #         return redirect(url_for('uploaded_file',
-    #                                 filename=filename))
-    return render_template('parts/new_part.html', time=datetime.datetime.now(), app=part_order_app, source="../static/parts_images/solo2.jpg", form=part_forms)
 
-@web_app.route('/parts/new_order')
+@web_app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(web_app.config['UPLOAD_FOLDER'],
+                               filename)
+
+@web_app.route('/parts/new_part', methods=['GET', 'POST'])
+def new_part():
+    form = part_forms.New_Part_Form()
+    form.client.choices = [('0', 'Select Client')] + list(app.get_all_clients())
+    if form.validate_on_submit():
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                if part_order_app.add_new_part(form.part_number.data, form.client.data, form.description.data, filename):
+                    file.save(os.path.join(web_app.config['UPLOAD_FOLDER'], filename))
+                return redirect(url_for('new_part'))
+    return render_template('parts/new_part.html',
+                           time=datetime.datetime.now(),
+                           app=part_order_app,
+                           source="../static/parts_images/solo2.jpg",
+                           form=form)
+
+@web_app.route('/parts/new_order', methods=['GET', 'POST'])
 def new_part_order():
-    return render_template('parts/new_part_order.html', time=datetime.datetime.now())
+    form = part_forms.Part_Order_Form()
+    form.employee.choices = [('0', 'Employee')] + list(app.get_all_employee_names())
+    form.p_client.choices = [('0', 'Select Client')] + list(app.get_all_clients())
+    form.part_id.choices = [('0', 'Select Part')] + list(part_order_app.get_all_parts_simple())
+    form.p_retailer.choices = [('0', 'Select Retailer')] + list(app.get_all_retailers())
+    form.p_store.choices = [('0', 'Select Store')] + list(app.get_all_stores())
+    if form.validate_on_submit():
+        if part_order_app.new_part_order(form.employee.data,
+                                         form.p_client.data,
+                                         form.part_id.data,
+                                         form.p_store.data,
+                                         form.order_date.data):
+            return redirect(url_for('new_part_order'))
+    return render_template('parts/new_part_order.html', time=datetime.datetime.now(), form=form)
 
 
 if __name__ == '__main__':

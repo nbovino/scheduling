@@ -5,7 +5,14 @@
 <h1>Add New Part</h1>
 <div class="container">
     <div class="add-form">
-        <img src={{app.get_file_name()}} class="small_image"/>
+        <form action="" method=post enctype=multipart/form-data>
+            {{ form.hidden_tag() }}
+            {% for field in form %}
+                {{ render_field(field) }}
+            {% endfor %}
+            <input type=file name=file />
+            <input type=submit value=Upload />
+        </form>
     </div>
 </div>
 {% endblock %}

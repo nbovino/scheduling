@@ -5,10 +5,14 @@ from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
 from wtforms.fields.html5 import DateField
 
 class New_Part_Form(Form):
-    store_name = SelectField("Name", validators=[DataRequired()], coerce=int) # First arg becomes the id element in the html
-    store_number = StringField("Number", validators=[DataRequired()])
-    street_number = StringField("Street Number", validators=[DataRequired()])
-    street_name = StringField("Street Name", validators=[DataRequired()])
-    city = StringField("City", validators=[DataRequired()])
-    state = StringField("State", validators=[DataRequired()])
-    zip = IntegerField("Zip Code", validators=[DataRequired()])
+    client = SelectField("Client", coerce=int)
+    part_number = StringField("Part Number", validators=[DataRequired()])
+    description = StringField("Description", validators=[DataRequired()])
+
+class Part_Order_Form(Form):
+    employee = SelectField("Employee", coerce=int)
+    p_client = SelectField("Client", coerce=int)
+    part_id = SelectField("Part", coerce=int)
+    p_retailer = SelectField("Retailer", coerce=int)
+    p_store = SelectField("Store", coerce=int)
+    order_date = DateField("Order Date", validators=[InputRequired()], format="%m/%d/%Y")
